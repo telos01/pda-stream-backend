@@ -21,6 +21,7 @@ pub fn get_all_program_accounts() -> Vec<(Pubkey, Account)> {
 }
 
 pub fn subscribe_to_program(){
+    dotenv().ok();
     let url = "ws://api.devnet.solana.com".to_string();
     let env_pubkey = env::var("PUBKEY").expect("PUBKEY must be set");
     let program_pub_key = Pubkey::from_str(&env_pubkey)
