@@ -2,21 +2,28 @@ use std::{str::FromStr, thread};
 use solana_client::{pubsub_client,rpc_client::RpcClient};
 use solana_sdk::{account::Account,pubkey::Pubkey};
 use crate::{establish_connection,models::Stream};
-//environment variable pubkey
+use dotenv::dotenv;
+use std::env;
 
-pub fn get_all_program_accounts()-> Vec<(Pubkey,Account)>{
-    let program_pub_key = Pubkey::from_str("pubkey")
+
+
+pub fn get_all_program_accounts() -> Vec<(Pubkey, Account)> {
+    dotenv().ok();
+    let env_pubkey = env::var("PUBKEY").expect("PUBKEY must be set");
+    let program_pub_key = Pubkey::from_str(&env_pubkey)
         .expect("program address invalid");
     let url = "https://api.devnet.solana.com".to_string();
     let client = RpcClient::new(url);
 
-    client.get_program_accounts(&program_pub_key)
-    .expect("Something went wrong")
+    client
+        .get_program_accounts(&program_pub_key)
+        .expect("Something went wrong")
 }
 
 pub fn subscribe_to_program(){
     let url = "ws://api.devnet.solana.com".to_string();
-    let program_pub_key = Pubkey::from_str("pubkey")
+    let env_pubkey = env::var("PUBKEY").expect("PUBKEY must be set");
+    let program_pub_key = Pubkey::from_str(&env_pubkey)
     .expect("program address invalid");
 
     thread::spawn(move||loop{
