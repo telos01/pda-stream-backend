@@ -7,7 +7,7 @@ use crate::models::Stream;
 
 #[get("/")]
 pub fn index() -> &'static str{
-    "!! Hello, World !!"
+    "!!* Hello, World *!!"
 }
 
 #[get("/<pubkey>")]
